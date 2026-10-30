@@ -93,10 +93,20 @@ def merge_dataframes(dataframes: list[pd.DataFrame]) -> pd.DataFrame:
         ignore_index=True,
     )
 
+    
     logger.info(
         "Fusion effectuée : %s observations",
         len(df_unified),
     )
+
+    # Normalisation des labels pour PostgreSQL.
+    # Conserve les valeurs manquantes des articles non étiquetés.
+    df_unified["label"] = pd.to_numeric(
+        df_unified["label"],
+        errors="raise",
+    ).astype("Int64")
+
+    logger.info("Labels normalisés au format entier nullable (Int64).")
 
     if df_unified["id"].isna().any():
         raise ValueError("Certains identifiants sont manquants.")

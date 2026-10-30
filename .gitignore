@@ -34,3 +34,9 @@ data/images/
 # Fichiers système
 .DS_Store
 Thumbs.db
+
+# Apache Airflow
+airflow/logs/
+airflow/config/airflow.cfg
+airflow/airflow.db
+airflow/.env
