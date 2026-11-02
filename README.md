@@ -117,6 +117,29 @@ uv run pytest tests/ -v
 
 Les tests vérifient notamment la structure des données, les identifiants, les annotations et la cohérence de la fusion.
 
+## Monitoring du pipeline ETL
+
+Un tableau de bord interactif développé avec **Streamlit** permet de suivre les indicateurs de performance du pipeline :
+
+* **Qualité des données** : nombre d'articles, complétude des titres, doublons et URL d'images.
+* **Performance Airflow** : nombre d'exécutions, taux de réussite et durée moyenne.
+* **Répartition des données** : nombre d'articles par source.
+* **Durée des tâches** : temps d'exécution de chaque tâche Airflow.
+* **Ressources Docker** : consommation CPU et mémoire des conteneurs.
+
+Pour lancer le tableau de bord depuis la racine du projet :
+
+```bash
+uv run streamlit run dashboard/app.py
+```
+
+L'interface est accessible sur `http://localhost:8501`.
+
+**Validation :** le 2 novembre 2026, une nouvelle exécution du DAG `checkit_etl` a réussi avec ses six tâches. Le tableau de bord a correctement actualisé les indicateurs : **60 438 articles, 0 % de doublons d'identifiant et 83,3 % de réussite sur six exécutions**.
+
+Un plan de monitoring complète le tableau de bord en définissant les seuils d'alerte, les fréquences de surveillance et les actions correctives.
+
+
 ## Organisation du projet
 
 ```text
@@ -132,6 +155,11 @@ fake-news-etl/
 │   ├── docker-compose.yaml      # Configuration des conteneurs
 │   └── Dockerfile               # Image Airflow personnalisée
 │
+├── dashboard/
+│   ├── __init__.py
+│   └── app.py                   # Tableau de bord Streamlit
+│ 
+|
 ├── data/
 │   ├── raw/                     # Données extraites des trois sources
 │   ├── processed/               # Données nettoyées et harmonisées
@@ -152,7 +180,7 @@ fake-news-etl/
 │   ├── extraction/              # Extraction des données
 │   ├── transformation/          # Nettoyage, harmonisation et fusion
 │   ├── loading/                 # Chargement dans PostgreSQL
-│   ├── utils/                   # Fonctions utilitaires
+|   ├── monitoring/              # Indicateurs PostgreSQL, Airflow et Docker
 │   └── __init__.py
 │
 ├── tests/                       # Tests automatisés (pytest)
@@ -176,4 +204,4 @@ Le modèle conceptuel, les relations entre les données et l'association texte-i
 - [x] Chargement PostgreSQL
 - [x] Orchestration avec Apache Airflow
 - [x] Vérifications SQL et tests automatisés (37 tests réussis)
-- [ ] Monitoring
+- [x] Monitoring : tableau de bord KPI Streamlit et plan de surveillance
