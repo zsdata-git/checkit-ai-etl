@@ -150,7 +150,7 @@ Pour une exploitation régulière, les fréquences suivantes sont proposées :
 | Durée des tâches                    | Après chaque exécution        |
 | Répartition des articles par source | Une fois par semaine          |
 | Revue des incidents                 | Une fois par mois             |
-| Consommation CPU et mémoire Docker  |	Après chaque exécution        |
+| Consommation CPU et mémoire Docker  |	Pendant les exécutions        |
 
 Ces fréquences devront être adaptées à la périodicité réelle du pipeline.
 
